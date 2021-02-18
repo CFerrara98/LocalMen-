@@ -29,6 +29,9 @@ dependencies:
   json_serializable: ^3.3.0
   bordered_text: ^1.0.1
   page_transition: ^1.1.7+6
+  geoflutterfire: ^2.2.1
+  cloud_firestore: ^0.14.0+2
+  geolocator: ^6.2.0
 
 dev_dependencies:
   flutter_test:
