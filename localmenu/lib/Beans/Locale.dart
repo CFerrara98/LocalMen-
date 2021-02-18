@@ -21,7 +21,7 @@ class Locale {
         this._rate=json['recensione'],
         this._phone=json['telefono'];
 
-  static Locale createUserFromJson(Map<String, dynamic> json) {
+  static Locale createLocaleFromJson(Map<String, dynamic> json) {
   Locale u = Locale.convertFromJson(json);
     return u;
   }
@@ -43,32 +43,21 @@ class LocalePreview {
   String _name;
   double _rate;
 
+  LocalePreview(this._name, this._rate);
 
-
-  Locale(this._name, this._rate, this._city, this._address, this._iva,
-      this._phone);
-
-  Locale.convertFromJson(Map<String, dynamic> json)
+  LocalePreview.convertFromJson(Map<String, dynamic> json)
       : this._name = json['nome'],
-        this._address=json['indirizzo'],
-        this._city=json['citta'],
-        this._iva=json['partitaiva'],
-        this._rate=json['recensione'],
-        this._phone=json['telefono'];
+        this._rate=json['recensione'];
 
-  static Locale createUserFromJson(Map<String, dynamic> json) {
-    Locale u = Locale.convertFromJson(json);
+  static LocalePreview createLocalePreviewFromJson(Map<String, dynamic> json) {
+    LocalePreview u = LocalePreview.convertFromJson(json);
     return u;
   }
 
-  static Map<String, dynamic> createJsonFromUser(Locale u) {
+  static Map<String, dynamic> createJsonFromUser(LocalePreview u) {
     return {
       'nome': u._name,
-      'indirizzo': u._address,
-      'citta': u._city,
-      'partitaiva': u._iva,
-      'recensione': u._rate,
-      'telefono': u._phone,
+      'recensione': u._rate
     };
   }
 }
