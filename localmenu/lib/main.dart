@@ -1,16 +1,29 @@
+import 'dart:async';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'Beans/Locale.dart';
-import 'Beans/Locale.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:localmenu/Utils/custom_bordered_text.dart';
+import 'package:localmenu/home.dart';
+import 'package:page_transition/page_transition.dart';
+
+import 'Utils/Graphics/colors.dart';
+import 'Utils/Graphics/colors.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+
+  void loadImages(BuildContext context){
+    precacheImage(AssetImage("images/background_revert.png"), context);
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    loadImages(context);
     return MaterialApp(
       title: 'Local Menu',
       theme: ThemeData(
@@ -36,7 +49,7 @@ class MyApp extends StatelessWidget {
 
 class LoadingScreen extends StatefulWidget {
   LoadingScreen({Key key, this.title}) : super(key: key);
-  
+
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
   // how it looks.
@@ -55,6 +68,12 @@ class LoadingScreen extends StatefulWidget {
 class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
+  void initState() {
+    super.initState();
+    onPageStart();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     MediaQueryData mqd = MediaQuery.of(context);
@@ -62,27 +81,55 @@ class _LoadingScreenState extends State<LoadingScreen> {
     return Scaffold(
       body: Material(
         child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('images/background_revert.png'),
-              fit: BoxFit.cover,
-            )
-          ),
+          color: customOrange,
           child: Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('images/background_revert.png'),
+                  fit: BoxFit.cover,
+                )
+            ),
             padding: EdgeInsets.fromLTRB(mqd.size.width * 20 / 100, 0, mqd.size.width * 20 / 100, 0),
             child: Center(
+              child: BorderedText(
+                strokeColor: customOrange,
+                strokeWidth: 16,
                 child: AutoSizeText(
-                  "Local Menu",
+                  "LOCAL MENU",
                   maxLines: 1,
                   minFontSize: 16,
-                  style: TextStyle(
-                    fontSize: 48,
+                  style: GoogleFonts.ptSansNarrow(
+                    fontSize: 80,
+                    color: customWhite,
                   ),
                 ),
               ),
+            ),
           ),
         ),
       ),
     );
   }
+
+  void onPageStart(){
+    Timer(
+        Duration(
+          seconds: 3,
+        ),
+        // CALLBACK
+        () {
+          Navigator.push(
+            context,
+            PageTransition(
+              type: PageTransitionType.fade,
+              child: Home(),
+              inheritTheme: true,
+              ctx: context,
+              duration: Duration(milliseconds: 200),
+            ),
+          );
+        }
+    );
+  }
+
 }

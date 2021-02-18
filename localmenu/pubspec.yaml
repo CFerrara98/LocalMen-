@@ -27,6 +27,8 @@ dependencies:
   google_fonts: ^1.1.2
   auto_size_text: ^2.1.0
   json_serializable: ^3.3.0
+  bordered_text: ^1.0.1
+  page_transition: ^1.1.7+6
 
 dev_dependencies:
   flutter_test:
