@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "629825270880",
+    "project_id": "local-menu-1527c",
+    "storage_bucket": "local-menu-1527c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:629825270880:android:7014c3da5ad1e8a4ddbf05",
+        "android_client_info": {
+          "package_name": "com.overridersgroup.localmenu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "629825270880-mh0tpfmeol4tkdqhpohrspepi7t5eqo0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtka_4IqgSGOZtG5CuPFnWoogtSgkcktI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "629825270880-mh0tpfmeol4tkdqhpohrspepi7t5eqo0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
