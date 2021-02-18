@@ -24,9 +24,9 @@ Color changeColorLightness(Color color, newLightnessValue) =>
     HSLColor.fromColor(color).withLightness(newLightnessValue).toColor();
 
 Color customWhite = HexColor('#ffffff');
-Color customPerlWhite = HexColor('#F7F7F7');
+Color customOrange = HexColor('#E25434');
 
-Color customBlackGrey = HexColor('#808080');
+/*Color customBlackGrey = HexColor('#808080');
 Color customLightGrey = HexColor('#dedcdc');
 
 Color customBlackBlue = HexColor('#323750');
@@ -46,7 +46,7 @@ Color customPink = customPinkNavigation;
 
 //Color customPink = HexColor('#fd4488');
 Color customColorTrash =
-HexColor('#f6f6f6'); //Color.fromARGB(255, 255, 125, 173);
+HexColor('#f6f6f6'); //Color.fromARGB(255, 255, 125, 173);*/
 
 TextStyle basefont =
     GoogleFonts.montserrat(); //TextStyle(fontFamily: 'Montserrat_ExtraLight');
