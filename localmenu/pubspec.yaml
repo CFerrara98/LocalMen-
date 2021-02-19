@@ -60,6 +60,9 @@ flutter:
      - images/010-burger.png
      - images/022-serving-dish.png
      - images/023-pizza-slice.png
+     - images/047-menu.png
+     - images/update-arrows.png
+     - images/034-waiter.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

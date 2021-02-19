@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:localmenu/Beans/Locale.dart';
 
 import 'Controller/controllerLocale.dart';
 import 'Utils/Graphics/colors.dart';
@@ -16,6 +17,10 @@ class _HomeState extends State<Home> {
 
   int activeIndex = -1;
   List<CategoryCard> categoryCards;
+  List<LocalePreview> previewList;
+  bool hasCategoryChosen = false;
+  bool isLoading = false;
+  Stream databaseStream;
 
   @override
   void initState() {
@@ -25,15 +30,11 @@ class _HomeState extends State<Home> {
     categoryCards.add(new CategoryCard("Pizzeria", AssetImage("images/023-pizza-slice.png")));
     categoryCards.add(new CategoryCard("Paninoteca", AssetImage("images/010-burger.png")));
     categoryCards.add(new CategoryCard("Sushi", AssetImage("images/003-chinese-food.png")));
+    previewList = new List();
   }
-
 
   @override
   Widget build(BuildContext context) {
-
-    // Code to debug
-    var locali = ControllerLocale.initLocaliFromCategory("Pizzeria", 10000);
-
 
     MediaQueryData mqd = MediaQuery.of(context);
 
@@ -49,7 +50,7 @@ class _HomeState extends State<Home> {
               )
           ),
           child: Container(
-            padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
+            padding: EdgeInsets.fromLTRB(22, 24, 22, 12),
             height: mqd.size.height,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -140,11 +141,27 @@ class _HomeState extends State<Home> {
                                 ],
                               ),
                             ),
-                            onTap: () {
-                              setState(() {
-                                print("Pressed " + categoryCards[index].name);
-                                activeIndex = index;
-                              });
+                            onTap: () async {
+                              if (!isLoading) {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                if (activeIndex != index)
+                                  setState(() {
+                                    activeIndex = index;
+                                    hasCategoryChosen = true;
+                                  });
+                                if (previewList.isNotEmpty) previewList = new List();
+                                databaseStream = await ControllerLocale.initLocaliFromCategory(categoryCards[index].name, 100000);
+                                databaseStream.listen((event) {
+                                  event.forEach((element) {
+                                    previewList.add(LocalePreview.createLocalePreviewFromJson(element.data()));
+                                  });
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                });
+                              }
                             },
                           );
                         },
@@ -168,11 +185,117 @@ class _HomeState extends State<Home> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    /*
-                    *
-                    *   ADD HERE THE HORIZONTAL CARDS' LIST
-                    *
-                    * */
+                    Container(
+                      height: 135,
+                      margin: EdgeInsets.only(top: 14),
+                      child:
+                          // # IF1
+                        (hasCategoryChosen) ?
+                            // # IF2 < IF1
+                          (isLoading) ?
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8, right: 8),
+                            child: Row(
+                              children: [
+                                Image(
+                                  image: AssetImage("images/update-arrows.png"),
+                                  color: customBlack,
+                                  height: 95,
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: AutoSizeText(
+                                      "Attendi un istante.\nSto cercando i locali.",
+                                      maxLines: 3,
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.ptSans(
+                                        fontSize: 20,
+                                        color: customBlack,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                          : // ELSE2
+                            // IF3 < IF2
+                          (previewList.length > 0) ?
+                            ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: previewList.length, // TEMP
+                              itemBuilder: (BuildContext context, int index) {
+                                return Container(
+                                  width: 185,
+                                  height: 135,
+                                  margin: EdgeInsets.only(right: 12), // TEMP
+                                  child: FlatButton(
+                                    onPressed: () {
+                                      print("Pressed item"); // TEMP
+                                    },
+                                    padding: EdgeInsets.zero,
+                                    child: Container(),
+                                  ),
+                                  color: customOrange,
+                                );
+                              }
+                            )
+                          : // ELSE3
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8, right: 8),
+                              child: Row(
+                                children: [
+                                  Image(
+                                    image: AssetImage("images/034-waiter.png"),
+                                    color: customBlack,
+                                    height: 95,
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: AutoSizeText(
+                                        "Non ci sono locali attorno a te.\nRicontrolla tra qualche giorno.",
+                                        maxLines: 3,
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.ptSans(
+                                          fontSize: 20,
+                                          color: customBlack,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                        : // ELSE1
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8, right: 8),
+                          child: Row(
+                            children: [
+                              Image(
+                                image: AssetImage("images/047-menu.png"),
+                                color: customBlack,
+                                height: 95,
+                              ),
+                              Expanded(
+                                child: Container(
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: AutoSizeText(
+                                    "Clicca una categoria per visualizzare i locali disponibili intorno a te",
+                                    maxLines: 3,
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.ptSans(
+                                      fontSize: 20,
+                                      color: customBlack,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                    ),
                   ],
                 ),
               ],
