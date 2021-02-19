@@ -36,6 +36,9 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
 
+    double cardWidth = 220;
+    double cardHeight = 145;
+
     MediaQueryData mqd = MediaQuery.of(context);
 
     return Scaffold(
@@ -50,7 +53,7 @@ class _HomeState extends State<Home> {
               )
           ),
           child: Container(
-            padding: EdgeInsets.fromLTRB(22, 24, 22, 12),
+            padding: EdgeInsets.fromLTRB(22, 42, 22, 12),
             height: mqd.size.height,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -152,6 +155,7 @@ class _HomeState extends State<Home> {
                                     hasCategoryChosen = true;
                                   });
                                 if (previewList.isNotEmpty) previewList = new List();
+                                print("REQUEST TO DATABASE");
                                 databaseStream = await ControllerLocale.initLocaliFromCategory(categoryCards[index].name, 100000);
                                 databaseStream.listen((event) {
                                   event.forEach((element) {
@@ -186,7 +190,7 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                     Container(
-                      height: 135,
+                      height: cardHeight,
                       margin: EdgeInsets.only(top: 14),
                       child:
                           // # IF1
@@ -221,26 +225,59 @@ class _HomeState extends State<Home> {
                           )
                           : // ELSE2
                             // IF3 < IF2
+                          /*
+                          *     CARDS GOES HERE
+                          * */
                           (previewList.length > 0) ?
                             ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: previewList.length, // TEMP
                               itemBuilder: (BuildContext context, int index) {
                                 return Container(
-                                  width: 185,
-                                  height: 135,
+                                  width: cardWidth,
+                                  height: cardHeight,
                                   margin: EdgeInsets.only(right: 12), // TEMP
                                   child: FlatButton(
                                     onPressed: () {
                                       print("Pressed item"); // TEMP
                                     },
                                     padding: EdgeInsets.zero,
-                                    child: Container(),
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.only(top: 70), // edit here to change description size
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(Radius.circular(26)),
+                                              color: customBlack,
+                                            ),
+                                          ),
+                                          width: cardWidth,
+                                          height: cardHeight,
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.only(left: (cardWidth/8)/2), // code to center the image, don't touch it
+                                          child: Container(
+                                            width: cardWidth - (cardWidth/8),
+                                            height: cardHeight - (cardHeight/2.5), // edit here to change image size
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(Radius.circular(18)),
+                                              color: customOrange,
+                                            ),
+                                            child: Image(
+                                              image: ,
+                                            )
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                  color: customOrange,
                                 );
                               }
                             )
+                          /*
+                          *     END OF CARDS SECTION
+                          * */
                           : // ELSE3
                             Padding(
                               padding: const EdgeInsets.only(left: 8, right: 8),
