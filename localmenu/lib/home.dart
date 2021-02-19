@@ -32,7 +32,8 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
 
     // Code to debug
-    ControllerLocale.initLocaliFromCategory("Pizzeria");
+    var locali = ControllerLocale.initLocaliFromCategory("Pizzeria", 10000);
+
 
     MediaQueryData mqd = MediaQuery.of(context);
 
