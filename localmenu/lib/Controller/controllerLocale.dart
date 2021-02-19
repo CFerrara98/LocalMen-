@@ -9,9 +9,8 @@ class ControllerLocale{
 
   // Init firestore and geoFlutterFire
 
-  static Future<List<LocalePreview>> initLocaliFromCategory(String Category) async{
-
-    double radius = 10000;
+  static Future<Stream> initLocaliFromCategory(String Category, double radius) async{
+    List<LocalePreview> localList = new List();
     var geo = Geoflutterfire();
     var firestore = FirebaseFirestore.instance;
     // Create a geoFirePoint
@@ -21,11 +20,8 @@ class ControllerLocale{
     var collectionReference = firestore.collection(Category);
     Stream<List<DocumentSnapshot>> stream = geo.collection(collectionRef: collectionReference)
         .within(center: center, radius: radius, field: "position");
-      
-    stream.listen((event) {
-      print("lauraaaaaaaaaaaaaaaaa " +  event.toString());
-    });
 
+    return stream;
   }
 
   static Future<Position> _determinePosition() async {

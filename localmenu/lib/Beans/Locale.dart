@@ -47,11 +47,16 @@ class LocalePreview {
 
   LocalePreview.convertFromJson(Map<String, dynamic> json)
       : this._name = json['nome'],
-        this._rate=json['recensione'];
+        this._rate = double.parse(json['recensione']);
 
   static LocalePreview createLocalePreviewFromJson(Map<String, dynamic> json) {
     LocalePreview u = LocalePreview.convertFromJson(json);
     return u;
+  }
+
+  @override
+  String toString() {
+    return 'LocalePreview{_name: $_name, _rate: $_rate}';
   }
 
   static Map<String, dynamic> createJsonFromUser(LocalePreview u) {
