@@ -11,23 +11,20 @@ class ControllerLocale{
 
   static Future<List<LocalePreview>> initLocaliFromCategory(String Category) async{
 
-    double radius = 5;
+    double radius = 10000;
     var geo = Geoflutterfire();
     var firestore = FirebaseFirestore.instance;
-
-    print("io sono mario e tu " + firestore.app.name.toString());
     // Create a geoFirePoint
-    GeoFirePoint center ;
+    var pos = await _determinePosition();
+    GeoFirePoint center = geo.point(latitude: pos.latitude, longitude:pos.longitude);
     // get the collection reference or query
     var collectionReference = firestore.collection(Category);
-    var pos = await _determinePosition();
     Stream<List<DocumentSnapshot>> stream = geo.collection(collectionRef: collectionReference)
-        .within(center:  geo.point(latitude: pos.latitude, longitude:pos.longitude ), radius: radius, field: "Try");
+        .within(center: center, radius: radius, field: "position");
       
     stream.listen((event) {
       print("lauraaaaaaaaaaaaaaaaa " +  event.toString());
     });
-
 
   }
 
