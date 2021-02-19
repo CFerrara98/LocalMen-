@@ -1,14 +1,17 @@
 
-import 'package:localmenu/Utils/Geolocalizzazione.dart';
+import 'dart:convert';
 
-import '../Beans/Locale.dart';
+import 'package:flutter/material.dart';
+import 'package:localmenu/Beans/LocalsListSerializableBean.dart';
+import 'package:localmenu/Utils/Geolocalizzazione.dart';
+import 'package:localmenu/Utils/SharedPreferencesManager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../Beans/Locale.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ControllerLocale{
-
-  // Init firestore and geoFlutterFire
 
   static Future<List<LocalePreview>> initLocaliFromCategory(String Category, double radius) async{
     List<LocalePreview> localList = new List();
@@ -38,6 +41,24 @@ class ControllerLocale{
     return localList;
   }
 
+  static void saveLocalsPreviewList(String category, List<LocalePreview> locali) async{
+    LocalsList l = await LocalsList.initLocalsList(category, locali);
+    SharedPreferencesManager spm = new SharedPreferencesManager();
+    spm.initPreferences();
+    spm.SaveSerializable(category, LocalsList.createJsonFromUser(l));
+  }
 
+
+  static LocalsList getLocalsPreviewList(String category){
+    SharedPreferencesManager spm = new SharedPreferencesManager();
+    spm.initPreferences();
+
+    Map<String, dynamic> json = spm.GetSerializable(category);
+
+    LocalsList l = LocalsList.convertFromJson(json);
+
+    return l;
+  }
 
 }
+

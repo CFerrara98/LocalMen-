@@ -9,14 +9,20 @@ import 'package:json_annotation/json_annotation.dart';
 class LocalsList{
   String Categoria;
   DateTime time;
-  Position cordinate;
+  Position coordinate;
   List<LocalePreview> locali;
 
-  initLocalsList(String categoria, List<LocalePreview> locali) async{
-    Categoria = categoria;
-    this.locali = locali;
-    time = DateTime.now();
-    cordinate = await Geolocalizzazione.determinePosition();
+  LocalsList();
+
+  static Future<LocalsList> initLocalsList(String categoria, List<LocalePreview> locali) async{
+    LocalsList l = new LocalsList();
+
+    l.Categoria = categoria;
+    l.locali = locali;
+    l.time = DateTime.now();
+    l.coordinate = await Geolocalizzazione.determinePosition();
+
+    return l;
   }
 
   addLocale(LocalePreview lc){
@@ -26,8 +32,8 @@ class LocalsList{
   LocalsList.convertFromJson(Map<String, dynamic> json)
       : this.Categoria = json['Categoria'],
         this.time = json['time'],
-        this.cordinate = json['cordinate'],
-        this.locali = json['locali'],
+        this.coordinate = json['cordinate'],
+        this.locali = json['locali'];
 
   static LocalsList createLocalListFromJson(Map<String, dynamic> json) {
     LocalsList u = LocalsList.convertFromJson(json);
@@ -38,7 +44,7 @@ class LocalsList{
     return {
       'Categoria': u.Categoria,
       'time': u.time,
-      'cordinate': u.cordinate,
+      'cordinate': u.coordinate,
       'locali': u.locali,
     };
   }
