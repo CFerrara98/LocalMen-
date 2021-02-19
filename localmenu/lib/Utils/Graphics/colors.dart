@@ -25,28 +25,8 @@ Color changeColorLightness(Color color, newLightnessValue) =>
 
 Color customWhite = HexColor('#ffffff');
 Color customOrange = HexColor('#E25434');
-
-/*Color customBlackGrey = HexColor('#808080');
-Color customLightGrey = HexColor('#dedcdc');
-
-Color customBlackBlue = HexColor('#323750');
-
-//Color customViolet = HexColor('#4945fc');
-Color customVioletDeSat = HexColor('#7E7CFC');
-Color customViolet = customVioletDeSat;
-
-//Color customBlue = HexColor('##4844FB');
-Color customBlueDeSat = HexColor('#7D7AFA');
-Color customBlue = customBlueDeSat;
-
-//Color customPink = HexColor('#fd4488');
-Color customPinkNavigation =
-    HexColor('#FC7CAB'); //Color.fromARGB(255, 255, 125, 173);
-Color customPink = customPinkNavigation;
-
-//Color customPink = HexColor('#fd4488');
-Color customColorTrash =
-HexColor('#f6f6f6'); //Color.fromARGB(255, 255, 125, 173);*/
+Color customBlack = HexColor("#4C4443");
+Color customGrey = HexColor("#f7f7f7");
 
 TextStyle basefont =
     GoogleFonts.montserrat(); //TextStyle(fontFamily: 'Montserrat_ExtraLight');

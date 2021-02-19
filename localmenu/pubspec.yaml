@@ -33,6 +33,7 @@ dependencies:
   cloud_firestore: ^0.14.0+2
   geolocator: ^6.2.0
   firebase_core : ^0.5.0
+  font_awesome_flutter: ^8.11.0
 
 dev_dependencies:
   flutter_test:
@@ -53,6 +54,10 @@ flutter:
   assets:
      - images/background.png
      - images/background_revert.png
+     - images/003-chinese-food.png
+     - images/010-burger.png
+     - images/022-serving-dish.png
+     - images/023-pizza-slice.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

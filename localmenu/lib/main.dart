@@ -19,6 +19,11 @@ class MyApp extends StatelessWidget {
 
   void loadImages(BuildContext context){
     precacheImage(AssetImage("images/background_revert.png"), context);
+    precacheImage(AssetImage("images/background.png"), context);
+    precacheImage(AssetImage("images/003-chinese-food.png"), context);
+    precacheImage(AssetImage("images/010-burger.png"), context);
+    precacheImage(AssetImage("images/022-serving-dish.png"), context);
+    precacheImage(AssetImage("images/023-pizza-slice.png"), context);
   }
 
   // This widget is the root of your application.
@@ -127,7 +132,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
               child: Home(),
               inheritTheme: true,
               ctx: context,
-              duration: Duration(milliseconds: 200),
+              duration: Duration(milliseconds: 800),
             ),
           );
         }
