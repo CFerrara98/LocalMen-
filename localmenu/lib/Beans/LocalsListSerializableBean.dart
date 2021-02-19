@@ -27,7 +27,7 @@ class LocalsList{
       : this.Categoria = json['Categoria'],
         this.time = json['time'],
         this.cordinate = json['cordinate'],
-        this.locali = json['locali'],
+        this.locali = json['locali'];
 
   static LocalsList createLocalListFromJson(Map<String, dynamic> json) {
     LocalsList u = LocalsList.convertFromJson(json);

@@ -24,6 +24,9 @@ class MyApp extends StatelessWidget {
     precacheImage(AssetImage("images/010-burger.png"), context);
     precacheImage(AssetImage("images/022-serving-dish.png"), context);
     precacheImage(AssetImage("images/023-pizza-slice.png"), context);
+    precacheImage(AssetImage("images/047-menu.png"), context);
+    precacheImage(AssetImage("images/update-arrows.png"), context);
+    precacheImage(AssetImage("images/034-waiter.png"), context);
   }
 
   // This widget is the root of your application.
