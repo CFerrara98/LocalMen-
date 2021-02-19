@@ -32,7 +32,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
 
     // Code to debug
-    ControllerLocale.initLocaliFromCategory("Ristorante");
+    ControllerLocale.initLocaliFromCategory("Pizzeria");
 
     MediaQueryData mqd = MediaQuery.of(context);
 
