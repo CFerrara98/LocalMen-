@@ -27,6 +27,51 @@ class MyApp extends StatelessWidget {
     precacheImage(AssetImage("images/047-menu.png"), context);
     precacheImage(AssetImage("images/update-arrows.png"), context);
     precacheImage(AssetImage("images/034-waiter.png"), context);
+    // Pizzeria
+    precacheImage(AssetImage("images/pizzeria/1.png"), context);
+    precacheImage(AssetImage("images/pizzeria/2.png"), context);
+    precacheImage(AssetImage("images/pizzeria/3.png"), context);
+    precacheImage(AssetImage("images/pizzeria/4.png"), context);
+    precacheImage(AssetImage("images/pizzeria/5.png"), context);
+    precacheImage(AssetImage("images/pizzeria/6.png"), context);
+    precacheImage(AssetImage("images/pizzeria/7.png"), context);
+    precacheImage(AssetImage("images/pizzeria/8.png"), context);
+    precacheImage(AssetImage("images/pizzeria/9.png"), context);
+    precacheImage(AssetImage("images/pizzeria/10.png"), context);
+    // Ristorante
+    precacheImage(AssetImage("images/ristorante/1.png"), context);
+    precacheImage(AssetImage("images/ristorante/2.png"), context);
+    precacheImage(AssetImage("images/ristorante/3.png"), context);
+    precacheImage(AssetImage("images/ristorante/4.png"), context);
+    precacheImage(AssetImage("images/ristorante/5.png"), context);
+    precacheImage(AssetImage("images/ristorante/6.png"), context);
+    precacheImage(AssetImage("images/ristorante/7.png"), context);
+    precacheImage(AssetImage("images/ristorante/8.png"), context);
+    precacheImage(AssetImage("images/ristorante/9.png"), context);
+    precacheImage(AssetImage("images/ristorante/10.png"), context);
+    // Paninoteca
+    precacheImage(AssetImage("images/paninoteca/1.png"), context);
+    precacheImage(AssetImage("images/paninoteca/2.png"), context);
+    precacheImage(AssetImage("images/paninoteca/3.png"), context);
+    precacheImage(AssetImage("images/paninoteca/4.png"), context);
+    precacheImage(AssetImage("images/paninoteca/5.png"), context);
+    precacheImage(AssetImage("images/paninoteca/6.png"), context);
+    precacheImage(AssetImage("images/paninoteca/7.png"), context);
+    precacheImage(AssetImage("images/paninoteca/8.png"), context);
+    precacheImage(AssetImage("images/paninoteca/9.png"), context);
+    precacheImage(AssetImage("images/paninoteca/10.png"), context);
+    // Sushi
+    precacheImage(AssetImage("images/sushi/1.png"), context);
+    precacheImage(AssetImage("images/sushi/2.png"), context);
+    precacheImage(AssetImage("images/sushi/3.png"), context);
+    precacheImage(AssetImage("images/sushi/4.png"), context);
+    precacheImage(AssetImage("images/sushi/5.png"), context);
+    precacheImage(AssetImage("images/sushi/6.png"), context);
+    precacheImage(AssetImage("images/sushi/7.png"), context);
+    precacheImage(AssetImage("images/sushi/8.png"), context);
+    precacheImage(AssetImage("images/sushi/9.png"), context);
+    precacheImage(AssetImage("images/sushi/10.png"), context);
+
   }
 
   // This widget is the root of your application.

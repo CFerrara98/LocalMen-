@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:localmenu/Beans/Locale.dart';
+import 'package:localmenu/Controller/randomizerController.dart';
 
 import 'Controller/controllerLocale.dart';
 import 'Utils/Graphics/colors.dart';
@@ -21,6 +22,7 @@ class _HomeState extends State<Home> {
   bool hasCategoryChosen = false;
   bool isLoading = false;
   Stream databaseStream;
+  String chosenCategory;
 
   @override
   void initState() {
@@ -145,18 +147,16 @@ class _HomeState extends State<Home> {
                               ),
                             ),
                             onTap: () async {
-                              if (!isLoading) {
+                              if (!isLoading && activeIndex != index) {
                                 setState(() {
                                   isLoading = true;
+                                  activeIndex = index;
+                                  hasCategoryChosen = true;
+                                  chosenCategory = categoryCards[index].name.toLowerCase();
                                 });
-                                if (activeIndex != index)
-                                  setState(() {
-                                    activeIndex = index;
-                                    hasCategoryChosen = true;
-                                  });
                                 if (previewList.isNotEmpty) previewList = new List();
                                 print("REQUEST TO DATABASE");
-                                databaseStream = await ControllerLocale.initLocaliFromCategory(categoryCards[index].name, 100000);
+                                databaseStream = await ControllerLocale.initLocaliFromCategory(categoryCards[index].name, 100000); // DEBUG RANGE HERE
                                 databaseStream.listen((event) {
                                   event.forEach((element) {
                                     previewList.add(LocalePreview.createLocalePreviewFromJson(element.data()));
@@ -236,7 +236,7 @@ class _HomeState extends State<Home> {
                                 return Container(
                                   width: cardWidth,
                                   height: cardHeight,
-                                  margin: EdgeInsets.only(right: 12), // TEMP
+                                  margin: (index < previewList.length-1) ? EdgeInsets.only(right: 20) : EdgeInsets.only(right: 0),
                                   child: FlatButton(
                                     onPressed: () {
                                       print("Pressed item"); // TEMP
@@ -244,30 +244,62 @@ class _HomeState extends State<Home> {
                                     padding: EdgeInsets.zero,
                                     child: Stack(
                                       children: [
+                                        // Container background
                                         Container(
-                                          padding: EdgeInsets.only(top: 70), // edit here to change description size
+                                          padding: EdgeInsets.only(top: 20), // edit here to change description size
                                           child: Container(
                                             decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(Radius.circular(26)),
+                                              borderRadius: BorderRadius.all(Radius.circular(16)),
                                               color: customBlack,
                                             ),
                                           ),
                                           width: cardWidth,
                                           height: cardHeight,
                                         ),
+                                        // Container grey border
+                                        Container(
+                                          padding: EdgeInsets.only(left: ((cardWidth-52)/8)/2), // code to center the image, don't touch it
+                                          child: Container(
+                                            width: cardWidth - ((cardWidth-52)/8),
+                                            height: cardHeight - ((cardHeight-8)/2.5), // edit here to change image size
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(Radius.circular(16)),
+                                              color: customGrey,
+                                            ),
+                                          ),
+                                        ),
+                                        // Container with image
                                         Container(
                                           padding: EdgeInsets.only(left: (cardWidth/8)/2), // code to center the image, don't touch it
                                           child: Container(
                                             width: cardWidth - (cardWidth/8),
                                             height: cardHeight - (cardHeight/2.5), // edit here to change image size
                                             decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(Radius.circular(18)),
-                                              color: customOrange,
+                                              borderRadius: BorderRadius.all(Radius.circular(24)),
+                                              color: customGrey,
                                             ),
-                                            child: Image(
-                                              image: ,
-                                            )
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.circular(16),
+                                              child: Image(
+                                                image: RandomizerController.getRandomCardImage(chosenCategory),
+                                              ),
+                                            ),
                                           ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(top: cardHeight / 1.52, left: 12, right: 12),
+                                          width: cardWidth - 24,
+                                          child: AutoSizeText(
+                                            previewList[index].getName(),
+                                            maxLines: 1,
+                                            minFontSize: 14,
+                                            overflow: TextOverflow.ellipsis,
+                                            textAlign: TextAlign.center,
+                                            style: GoogleFonts.ptSans(
+                                              fontSize: 20,
+                                              color: customWhite,
+                                            ),
+                                          )
                                         )
                                       ],
                                     ),

@@ -45,6 +45,14 @@ class LocalePreview {
 
   LocalePreview(this._name, this._rate);
 
+  String getName(){
+    return _name;
+  }
+
+  int getRate() {
+    return _rate.round();
+  }
+
   LocalePreview.convertFromJson(Map<String, dynamic> json)
       : this._name = json['nome'],
         this._rate = double.parse(json['recensione']);
