@@ -300,6 +300,28 @@ class _HomeState extends State<Home> {
                                               color: customWhite,
                                             ),
                                           )
+                                        ),
+                                        Container(
+                                            margin: EdgeInsets.only(top: cardHeight / 1.18),
+                                            width: cardWidth,
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                for (int i = 1; i <= 5; i++)
+                                                  if (i <= previewList[index].getRate())
+                                                    Icon(
+                                                      Icons.star,
+                                                      size: 14,
+                                                      color: customOrange,
+                                                    )
+                                                  else
+                                                    Icon(
+                                                      Icons.star,
+                                                      size: 14,
+                                                      color: customWhite,
+                                                    ),
+                                              ],
+                                            )
                                         )
                                       ],
                                     ),
