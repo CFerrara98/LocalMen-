@@ -32,21 +32,23 @@ class ControllerLocale{
   }
 
   static void saveLocalsPreviewList(String category, List<LocalePreview> locali) async{
+    print("Started save of locals");
     LocalsList l = await LocalsList.initLocalsList(category, locali);
+    print("SAVE > Initialized localslist bean");
     SharedPreferencesManager spm = new SharedPreferencesManager();
     spm.initPreferences();
     spm.SaveSerializable(category, LocalsList.createJsonFromUser(l));
+    print("SAVE > Successfully saved");
   }
 
-
   static LocalsList getLocalsPreviewList(String category){
+    print("Started get of locals");
     SharedPreferencesManager spm = new SharedPreferencesManager();
     spm.initPreferences();
-
     Map<String, dynamic> json = spm.GetSerializable(category);
-
+    print("GET > Json obtained");
     LocalsList l = LocalsList.convertFromJson(json);
-
+    print("GET > localslist bean successfully loaded");
     return l;
   }
 

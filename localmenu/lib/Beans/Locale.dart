@@ -8,10 +8,11 @@ class Locale {
   String _address;
   String _iva;
   String _phone;
+  int _n_rates;
 
 
   Locale(this._name, this._rate, this._city, this._address, this._iva,
-      this._phone);
+      this._phone, this._n_rates);
 
   Locale.convertFromJson(Map<String, dynamic> json)
       : this._name = json['nome'],
@@ -19,7 +20,8 @@ class Locale {
         this._city=json['citta'],
         this._iva=json['partitaiva'],
         this._rate=json['recensione'],
-        this._phone=json['telefono'];
+        this._phone=json['telefono'],
+        this._n_rates=json['n_recensioni'];
 
   static Locale createLocaleFromJson(Map<String, dynamic> json) {
   Locale u = Locale.convertFromJson(json);
@@ -34,6 +36,7 @@ class Locale {
         'partitaiva': u._iva,
         'recensione': u._rate,
         'telefono': u._phone,
+        'n_recensioni': u._n_rates,
         };
   }
 }

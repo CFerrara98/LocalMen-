@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:localmenu/Beans/Locale.dart';
+import 'package:localmenu/Beans/LocalsListSerializableBean.dart';
 import 'package:localmenu/Controller/randomizerController.dart';
 
 import 'Controller/controllerLocale.dart';
@@ -155,7 +156,12 @@ class _HomeState extends State<Home> {
                                   chosenCategory = categoryCards[index].name.toLowerCase();
                                 });
                                 if (previewList.isNotEmpty) previewList = new List();
-                                print("REQUEST TO DATABASE");
+                                // Checking if locals are already saved in local device
+                                await ControllerLocale.saveLocalsPreviewList(categoryCards[index].name.toLowerCase(), new List());
+                                LocalsList localList = await ControllerLocale.getLocalsPreviewList(categoryCards[index].name.toLowerCase());
+
+
+
                                 databaseStream = await ControllerLocale.initLocaliFromCategory(categoryCards[index].name, 100000); // DEBUG RANGE HERE
                                 databaseStream.listen((event) {
                                   event.forEach((element) {
@@ -397,6 +403,11 @@ class _HomeState extends State<Home> {
     );
 
   }
+
+  void onCardPressed(String cardName) {
+
+  }
+
 }
 
 class CategoryCard {
