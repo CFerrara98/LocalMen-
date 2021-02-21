@@ -34,10 +34,11 @@ class LocalsList{
   LocalsList.convertFromJson(Map<String, dynamic> json)
       : this.Categoria = json['Categoria'],
         this.time = DateTime.parse(json['time']),
-        this.coordinate = json['cordinate'],
-        this.locali = json['locali'];
+        this.coordinate =Position.fromMap(json['cordinate']) ,
+        this.locali = LocalePreview.createListLocaliPreviewFromJson(json['locali']) ;
 
   static LocalsList createLocalListFromJson(Map<String, dynamic> json) {
+
     LocalsList u = LocalsList.convertFromJson(json);
     return u;
   }

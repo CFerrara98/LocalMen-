@@ -28,6 +28,7 @@ class Locale {
     return u;
   }
 
+
   static Map<String, dynamic> createJsonFromUser(Locale u) {
         return {
         'nome': u._name,
@@ -63,6 +64,16 @@ class LocalePreview {
   static LocalePreview createLocalePreviewFromJson(Map<String, dynamic> json) {
     LocalePreview u = LocalePreview.convertFromJson(json);
     return u;
+  }
+
+  static List<LocalePreview> createListLocaliPreviewFromJson(List<dynamic> json){
+
+    List<LocalePreview> l=new List();
+    print(json.length);
+    json.forEach((value) {
+      l.add(createLocalePreviewFromJson(value));
+    });
+    return l;
   }
 
   @override

@@ -160,9 +160,10 @@ class _HomeState extends State<Home> {
                                 if (previewList.isNotEmpty) previewList = new List();
                                 // Checking if locals are already saved in local device
 
-                                await ControllerLocale.saveLocalsPreviewList(categoryCards[index].name.toLowerCase(), new List());
-                                LocalsList localList = await ControllerLocale.getLocalsPreviewList(categoryCards[index].name.toLowerCase());
 
+                                LocalsList localList = await ControllerLocale.getLocalsPreviewList(categoryCards[index].name.toLowerCase());
+                                print('_______________________check_______________');
+                                print(localList.locali.length);
 
 
                                 databaseStream = await ControllerLocale.initLocaliFromCategory(categoryCards[index].name, 100000); // DEBUG RANGE HERE
@@ -174,6 +175,8 @@ class _HomeState extends State<Home> {
                                     isLoading = false;
                                   });
                                 });
+                                await ControllerLocale.saveLocalsPreviewList(categoryCards[index].name.toLowerCase(), previewList);
+
                               }
                             },
                           );

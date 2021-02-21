@@ -17,6 +17,7 @@ class SharedPreferencesManager{
   }
 
   Map<String, dynamic> GetSerializable(String key){
-    return json.decode(key);
+    if(prefs.getString(key)==null || prefs.getString(key)=='') return null;
+    return json.decode(prefs.getString(key));
   }
 }
