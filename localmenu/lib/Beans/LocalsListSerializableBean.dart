@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:localmenu/Beans/Locale.dart';
 import 'package:localmenu/Utils/Geolocalizzazione.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:intl/intl.dart';
 
 
 @JsonSerializable()
@@ -11,6 +12,7 @@ class LocalsList{
   DateTime time;
   Position coordinate;
   List<LocalePreview> locali;
+  //static var formatter = DateFormat('dd MM yyyy');
 
   LocalsList();
 
@@ -31,7 +33,7 @@ class LocalsList{
 
   LocalsList.convertFromJson(Map<String, dynamic> json)
       : this.Categoria = json['Categoria'],
-        this.time = json['time'],
+        this.time = DateTime.parse(json['time']),
         this.coordinate = json['cordinate'],
         this.locali = json['locali'];
 
@@ -43,7 +45,7 @@ class LocalsList{
   static Map<String, dynamic> createJsonFromUser(LocalsList u) {
     return {
       'Categoria': u.Categoria,
-      'time': u.time,
+      'time': u.time.toString(),
       'cordinate': u.coordinate,
       'locali': u.locali,
     };

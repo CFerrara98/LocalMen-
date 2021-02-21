@@ -36,7 +36,8 @@ class ControllerLocale{
     LocalsList l = await LocalsList.initLocalsList(category, locali);
     print("SAVE > Initialized localslist bean");
     SharedPreferencesManager spm = new SharedPreferencesManager();
-    spm.initPreferences();
+    print("here");
+    await spm.initPreferences();
     spm.SaveSerializable(category, LocalsList.createJsonFromUser(l));
     print("SAVE > Successfully saved");
   }

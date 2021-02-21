@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:localmenu/Beans/Locale.dart';
 import 'package:localmenu/Beans/LocalsListSerializableBean.dart';
 import 'package:localmenu/Controller/randomizerController.dart';
+import 'package:localmenu/Utils/SharedPreferencesManager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Controller/controllerLocale.dart';
 import 'Utils/Graphics/colors.dart';
@@ -157,6 +159,7 @@ class _HomeState extends State<Home> {
                                 });
                                 if (previewList.isNotEmpty) previewList = new List();
                                 // Checking if locals are already saved in local device
+
                                 await ControllerLocale.saveLocalsPreviewList(categoryCards[index].name.toLowerCase(), new List());
                                 LocalsList localList = await ControllerLocale.getLocalsPreviewList(categoryCards[index].name.toLowerCase());
 

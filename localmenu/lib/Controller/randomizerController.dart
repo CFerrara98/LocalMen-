@@ -28,7 +28,6 @@ class RandomizerController {
     } else if (category.toLowerCase() == "sushi") {
       toReturn = AssetImage("images/sushi/" + (randomNumber + 1).toString() + ".png");
     }
-
     return toReturn;
 
   }
