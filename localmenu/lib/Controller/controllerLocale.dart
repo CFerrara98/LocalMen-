@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../Beans/Locale.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:http/http.dart' as http;
 
 class ControllerLocale{
 
@@ -49,5 +50,22 @@ class ControllerLocale{
     print("metodo interno: " +  l.locali.toString());
     return l;
   }
+
+  static Future<Locale> getLocaleFromPreview(LocalePreview l, String Category) async {
+    String url = "https://local-menu-1527c-default-rtdb.firebaseio.com/dettagli/categoria/" +
+        Category.toLowerCase().replaceAll(" ", "") + "/" +
+        l.getName().toLowerCase().replaceAll(" ", "") + "_" +
+        l.city.toLowerCase().replaceAll(" ", "") + ".json";
+    http.Response response = await http.get(url);
+    if (response != null && response.statusCode == 200) {
+        print(response.body);
+        Locale l = Locale.convertFromJson(json.decode(response.body));
+
+        return l;
+    }
+
+    return null;
+  }
+
 
 }

@@ -1,15 +1,15 @@
 import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:localmenu/Beans/Locale.dart';
+import 'package:localmenu/Controller/controllerLocale.dart';
 import 'package:localmenu/Utils/custom_bordered_text.dart';
 import 'package:localmenu/home.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-import '../Utils/Graphics/colors.dart';
 import '../Utils/Graphics/colors.dart';
 import '../detailspage.dart';
 
@@ -32,44 +32,58 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
-   // initializeFlutterFire();
+    initializeLocale();
   }
 
-  bool successfullyConnected = false;
-
-  void initializeFlutterFire() async {
+  void initializeLocale() async {
     try {
-      await Firebase.initializeApp();
-      setState(() {
-        successfullyConnected = true;
-      });
+      locale = await ControllerLocale.getLocaleFromPreview(widget.l, widget.categoria);
     } catch(e) {
-      setState(() {
-        successfullyConnected = false;
-      });
+      Fluttertoast.showToast(
+          msg: "Errore di caricamento...",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+
+      Navigator.pop(context);
+
     }
 
-    if (successfullyConnected)
+
+    if (locale != null)
       Timer(
           Duration(
-            seconds: 2,
+            seconds: 3,
           ),
           // CALLBACK
               () {
-            print("Firebase loaded");
-            Navigator.pushAndRemoveUntil(context,
+            Navigator.pushReplacement(context,
                 PageTransition(
                   type: PageTransitionType.fade,
                   child: DetailsPage(categoryPressed: widget.categoria, localeLoaded: locale,),
                   inheritTheme: true,
                   ctx: context,
                   duration: Duration(milliseconds: 800),
-                ), (route) => false);
+                ));
 
           }
       );
     else {
-      print("Error");
+      Fluttertoast.showToast(
+          msg: "Errore di caricamento...",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+
+      Navigator.pop(context);
     }
 
   }

@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 @JsonSerializable()
 class Locale {
   String _name;
-  double _rate;
+  int _rate;
   String _city;
   String _address;
   String _iva;
