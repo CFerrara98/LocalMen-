@@ -1,11 +1,14 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
+import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:localmenu/Beans/Locale.dart';
 import 'package:localmenu/Beans/LocalsListSerializableBean.dart';
 import 'package:localmenu/Controller/randomizerController.dart';
+import 'package:localmenu/Utils/Geolocalizzazione.dart';
 import 'package:localmenu/Utils/SharedPreferencesManager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -160,10 +163,19 @@ class _HomeState extends State<Home> {
                                 if (previewList.isNotEmpty) previewList = new List();
                                 // Checking if locals are already saved in local device
                                 LocalsList localList = await ControllerLocale.getLocalsPreviewList(categoryCards[index].name.toLowerCase());
+
+
+                                if (localList != null){
+                                  Position p =  await Geolocalizzazione.determinePosition();
+                                  if ((p.latitude - localList.coordinate.latitude).abs() > 1) localList = null;
+                                  else if ((p.longitude - localList.coordinate.longitude).abs() > 1) localList = null;
+                                  else if (DateTime.now().difference(DateTime.parse(localList.time)).inDays > 0) localList = null;
+                                }
+
                                 if (localList == null) {
                                   // Locals not saved on phone
                                   print("SAVING ON PHONE CATEGORY " + categoryCards[index].name.toLowerCase());
-                                  databaseStream = await ControllerLocale.initLocaliFromCategory(categoryCards[index].name, 100000); // DEBUG RANGE HERE
+                                  databaseStream = await ControllerLocale.initLocaliFromCategory(categoryCards[index].name, 100); // DEBUG RANGE HERE
                                   databaseStream.listen((event) {
                                     event.forEach((element) {
                                       previewList.add(LocalePreview.createLocalePreviewFromJson(element.data()));
