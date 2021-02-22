@@ -6,26 +6,26 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:localmenu/Beans/Locale.dart';
 import 'package:localmenu/Controller/controllerLocale.dart';
 import 'package:localmenu/Utils/custom_bordered_text.dart';
-import 'package:localmenu/home.dart';
+import 'file:///D:/Workspaces/Github/LocalMenu/localmenu/lib/Views/home.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../Utils/Graphics/colors.dart';
-import '../detailspage.dart';
+import 'detailspage.dart';
 
-class LoadingScreen extends StatefulWidget {
+class MiddleLoading extends StatefulWidget {
 
-  LocalePreview l ;
-  String categoria;
+  final LocalePreview l ;
+  final String categoria;
 
-  LoadingScreen(this.l, this.categoria);
+  const MiddleLoading ({ Key key, @required this.l, @required this.categoria }): super(key: key);
 
   @override
-  _LoadingScreenState createState() => _LoadingScreenState();
+  _MiddleLoadingState createState() => _MiddleLoadingState();
 
 }
 
-class _LoadingScreenState extends State<LoadingScreen> {
+class _MiddleLoadingState extends State<MiddleLoading> {
 
   Locale locale = null;
 

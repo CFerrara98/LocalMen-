@@ -1,21 +1,17 @@
+
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/cupertino.dart';
-import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:localmenu/Beans/Locale.dart';
 import 'package:localmenu/Beans/LocalsListSerializableBean.dart';
+import 'package:localmenu/Controller/controllerLocale.dart';
 import 'package:localmenu/Controller/randomizerController.dart';
 import 'package:localmenu/Utils/Geolocalizzazione.dart';
-import 'package:localmenu/Utils/SharedPreferencesManager.dart';
+import 'package:localmenu/Utils/Graphics/colors.dart';
 import 'package:localmenu/Views/LoadingPage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import 'Controller/controllerLocale.dart';
-import 'Utils/Graphics/colors.dart';
+import 'package:localmenu/main.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -178,7 +174,7 @@ class _HomeState extends State<Home> {
                                 if (localList == null) {
                                   // Locals not saved on phone
                                   print("SAVING ON PHONE CATEGORY " + categoryCards[index].name.toLowerCase());
-                                  databaseStream = await ControllerLocale.initLocaliFromCategory(categoryCards[index].name, 2499); // DEBUG RANGE HERE
+                                  databaseStream = await ControllerLocale.initLocaliFromCategory(categoryCards[index].name, 13000); // DEBUG RANGE HERE
                                   databaseStream.listen((event) {
                                     event.forEach((element) {
                                       previewList.add(LocalePreview.createLocalePreviewFromJson(element.data()));
@@ -435,7 +431,7 @@ class _HomeState extends State<Home> {
   void onCardPressed(String category, LocalePreview l) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => new LoadingScreen(l, category)),
+      MaterialPageRoute(builder: (context) => new MiddleLoading(l: l, categoria: category)),
     );
   }
 
