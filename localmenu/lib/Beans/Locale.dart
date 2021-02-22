@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:json_annotation/json_annotation.dart';
 
 @JsonSerializable()
@@ -66,13 +68,11 @@ class LocalePreview {
     return u;
   }
 
-  static List<LocalePreview> createListLocaliPreviewFromJson(List<dynamic> json){
-
+  static List<LocalePreview> createListLocaliPreviewFromJson(String listJson){
     List<LocalePreview> l=new List();
-    print(json.length);
-    json.forEach((value) {
-      l.add(createLocalePreviewFromJson(value));
-    });
+    print("PORCA MADONNA PUTTANA");
+    List<dynamic> myMap = json.decode(listJson);
+    print(myMap);
     return l;
   }
 

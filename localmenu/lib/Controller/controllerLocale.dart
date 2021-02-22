@@ -32,25 +32,20 @@ class ControllerLocale{
   }
 
   static void saveLocalsPreviewList(String category, List<LocalePreview> locali) async{
-    print("Started save of locals");
     LocalsList l = await LocalsList.initLocalsList(category, locali);
-    print("SAVE > Initialized localslist bean");
     SharedPreferencesManager spm = new SharedPreferencesManager();
-    print("here");
     await spm.initPreferences();
-    spm.SaveSerializable(category, LocalsList.createJsonFromUser(l));
-    print("SAVE > Successfully saved");
+    spm.SaveSerializable(category, LocalsList.createJsonFromLocalePreview(l));
   }
 
   static Future<LocalsList> getLocalsPreviewList(String category) async{
-    print("Started get of locals");
     SharedPreferencesManager spm = new SharedPreferencesManager();
     await spm.initPreferences();
     Map<String, dynamic> json = spm.GetSerializable(category);
     if(json==null) return null;
-    print("GET > Json obtained");
-    LocalsList l = LocalsList.convertFromJson(json);
-    print("GET > localslist bean successfully loaded");
+    String jsonCoordinate = json["cordinate"];
+    var jsonTranslated = jsonDecode(jsonCoordinate);
+    LocalsList l = LocalsList.convertFromJson(json, double.parse(jsonTranslated["latitude"]), double.parse(jsonTranslated["longitude"]));
     return l;
   }
 

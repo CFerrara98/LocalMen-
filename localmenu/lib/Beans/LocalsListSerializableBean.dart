@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:localmenu/Beans/Locale.dart';
@@ -9,7 +11,7 @@ import 'package:intl/intl.dart';
 @JsonSerializable()
 class LocalsList{
   String Categoria;
-  DateTime time;
+  String time;
   Position coordinate;
   List<LocalePreview> locali;
   //static var formatter = DateFormat('dd MM yyyy');
@@ -21,7 +23,10 @@ class LocalsList{
 
     l.Categoria = categoria;
     l.locali = locali;
-    l.time = DateTime.now();
+    DateTime now = DateTime.now();
+    DateFormat formatter = DateFormat('yyyy-MM-dd');
+    String formatted = formatter.format(now);
+    l.time = formatted;
     l.coordinate = await Geolocalizzazione.determinePosition();
 
     return l;
@@ -31,24 +36,34 @@ class LocalsList{
     locali.add(lc);
   }
 
-  LocalsList.convertFromJson(Map<String, dynamic> json)
+  LocalsList.convertFromJson(Map<String, dynamic> json, double latitude, double longitude)
       : this.Categoria = json['Categoria'],
-        this.time = DateTime.parse(json['time']),
-        this.coordinate =Position.fromMap(json['cordinate']) ,
-        this.locali = LocalePreview.createListLocaliPreviewFromJson(json['locali']) ;
+        this.time = json['time'],
+        this.coordinate = new Position(latitude: latitude, longitude: longitude),
+        this.locali = LocalePreview.createListLocaliPreviewFromJson(json['locali']);
 
   static LocalsList createLocalListFromJson(Map<String, dynamic> json) {
-
-    LocalsList u = LocalsList.convertFromJson(json);
-    return u;
+    String jsonCoordinate = json["cordinate"];
+    var jsonTranslated = jsonDecode(jsonCoordinate);
+    LocalsList l = LocalsList.convertFromJson(json, jsonTranslated["latitude"], jsonTranslated["longitude"]);
+    return l;
   }
 
-  static Map<String, dynamic> createJsonFromUser(LocalsList u) {
+  static Map<String, dynamic> createJsonFromLocalePreview(LocalsList u) {
+    String localiJson = "[";
+    int index = 0;
+    for (LocalePreview lp in u.locali) {
+      index++;
+      localiJson += "{\"nome\":\"" + lp.getName() + "\", \"recensione\":\"" + lp.getRate().toString() + "\"}";
+      if (index < u.locali.length-1) localiJson += ",";
+    }
+    localiJson+="]";
+    print("Created json locali list >>> " + localiJson);
     return {
       'Categoria': u.Categoria,
-      'time': u.time.toString(),
-      'cordinate': u.coordinate,
-      'locali': u.locali,
+      'time': "\"" + u.time + "\"",
+      'cordinate': "{\"latitude\":\"" + u.coordinate.latitude.toString() + "\", \"longitude\":\"" + u.coordinate.longitude.toString() + "\"}",
+      'locali': localiJson,
     };
   }
 

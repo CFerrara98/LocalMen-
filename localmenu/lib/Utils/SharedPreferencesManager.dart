@@ -13,6 +13,7 @@ class SharedPreferencesManager{
   }
 
   SaveSerializable(String key, Map<String, dynamic> value){
+    print("SAVING ? " + value.toString());
     prefs.setString(key, json.encode(value));
   }
 

@@ -159,24 +159,30 @@ class _HomeState extends State<Home> {
                                 });
                                 if (previewList.isNotEmpty) previewList = new List();
                                 // Checking if locals are already saved in local device
-
-
                                 LocalsList localList = await ControllerLocale.getLocalsPreviewList(categoryCards[index].name.toLowerCase());
-                                print('_______________________check_______________');
-                                print(localList.locali.length);
-
-
-                                databaseStream = await ControllerLocale.initLocaliFromCategory(categoryCards[index].name, 100000); // DEBUG RANGE HERE
-                                databaseStream.listen((event) {
-                                  event.forEach((element) {
-                                    previewList.add(LocalePreview.createLocalePreviewFromJson(element.data()));
+                                if (localList == null) {
+                                  // Locals not saved on phone
+                                  print("SAVING ON PHONE CATEGORY " + categoryCards[index].name.toLowerCase());
+                                  databaseStream = await ControllerLocale.initLocaliFromCategory(categoryCards[index].name, 100000); // DEBUG RANGE HERE
+                                  databaseStream.listen((event) {
+                                    event.forEach((element) {
+                                      previewList.add(LocalePreview.createLocalePreviewFromJson(element.data()));
+                                    });
+                                    setState(() {
+                                      isLoading = false;
+                                    });
                                   });
+                                  await ControllerLocale.saveLocalsPreviewList(categoryCards[index].name.toLowerCase(), previewList);
+                                } else {
+                                  // Locals already saved
+                                  print("LOADING FROM PHONE CATEGORY " + categoryCards[index].name.toLowerCase());
+                                  for (LocalePreview lp in localList.locali) {
+                                    previewList.add(lp);
+                                  }
                                   setState(() {
                                     isLoading = false;
                                   });
-                                });
-                                await ControllerLocale.saveLocalsPreviewList(categoryCards[index].name.toLowerCase(), previewList);
-
+                                }
                               }
                             },
                           );
