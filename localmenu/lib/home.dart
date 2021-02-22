@@ -273,7 +273,7 @@ class _HomeState extends State<Home> {
                                   margin: (index < previewList.length-1) ? EdgeInsets.only(right: 20) : EdgeInsets.only(right: 0),
                                   child: FlatButton(
                                     onPressed: () {
-                                      onCardPressed("", previewList[index]);
+                                      onCardPressed(chosenCategory, previewList[index]);
                                     },
                                     padding: EdgeInsets.zero,
                                     child: Stack(

@@ -11,6 +11,7 @@ import 'package:page_transition/page_transition.dart';
 
 import '../Utils/Graphics/colors.dart';
 import '../Utils/Graphics/colors.dart';
+import '../detailspage.dart';
 
 class LoadingScreen extends StatefulWidget {
 
@@ -25,6 +26,8 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
+
+  Locale locale = null;
 
   @override
   void initState() {
@@ -57,7 +60,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
             Navigator.pushAndRemoveUntil(context,
                 PageTransition(
                   type: PageTransitionType.fade,
-                  child: Home(),
+                  child: DetailsPage(categoryPressed: widget.categoria, localeLoaded: locale,),
                   inheritTheme: true,
                   ctx: context,
                   duration: Duration(milliseconds: 800),
