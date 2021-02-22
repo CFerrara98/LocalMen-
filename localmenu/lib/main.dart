@@ -133,16 +133,15 @@ class _LoadingScreenState extends State<LoadingScreen> {
           // CALLBACK
               () {
             print("Firebase loaded");
-            Navigator.push(
-              context,
-              PageTransition(
-                type: PageTransitionType.fade,
-                child: Home(),
-                inheritTheme: true,
-                ctx: context,
-                duration: Duration(milliseconds: 800),
-              ),
-            );
+            Navigator.pushAndRemoveUntil(context,
+            PageTransition(
+              type: PageTransitionType.fade,
+              child: Home(),
+              inheritTheme: true,
+              ctx: context,
+              duration: Duration(milliseconds: 800),
+            ), (route) => false);
+
           }
       );
     else {

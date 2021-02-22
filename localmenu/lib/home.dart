@@ -11,6 +11,7 @@ import 'package:localmenu/Beans/LocalsListSerializableBean.dart';
 import 'package:localmenu/Controller/randomizerController.dart';
 import 'package:localmenu/Utils/Geolocalizzazione.dart';
 import 'package:localmenu/Utils/SharedPreferencesManager.dart';
+import 'package:localmenu/Views/LoadingPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Controller/controllerLocale.dart';
@@ -168,6 +169,7 @@ class _HomeState extends State<Home> {
 
                                 if (localList != null){
                                   Position p =  await Geolocalizzazione.determinePosition();
+                                  print (p);
                                   if ((p.latitude - localList.coordinate.latitude).abs() > 1) localList = null;
                                   else if ((p.longitude - localList.coordinate.longitude).abs() > 1) localList = null;
                                   else if (DateTime.now().difference(new DateFormat("yyyy-MM-dd").parse(localList.time.replaceAll('\"', ''))).inDays > 0) localList = null;
@@ -176,7 +178,7 @@ class _HomeState extends State<Home> {
                                 if (localList == null) {
                                   // Locals not saved on phone
                                   print("SAVING ON PHONE CATEGORY " + categoryCards[index].name.toLowerCase());
-                                  databaseStream = await ControllerLocale.initLocaliFromCategory(categoryCards[index].name, 100); // DEBUG RANGE HERE
+                                  databaseStream = await ControllerLocale.initLocaliFromCategory(categoryCards[index].name, 2499); // DEBUG RANGE HERE
                                   databaseStream.listen((event) {
                                     event.forEach((element) {
                                       previewList.add(LocalePreview.createLocalePreviewFromJson(element.data()));
@@ -271,7 +273,7 @@ class _HomeState extends State<Home> {
                                   margin: (index < previewList.length-1) ? EdgeInsets.only(right: 20) : EdgeInsets.only(right: 0),
                                   child: FlatButton(
                                     onPressed: () {
-                                      print("Pressed item"); // TEMP
+                                      onCardPressed("", previewList[index]);
                                     },
                                     padding: EdgeInsets.zero,
                                     child: Stack(
@@ -430,8 +432,11 @@ class _HomeState extends State<Home> {
 
   }
 
-  void onCardPressed(String cardName) {
-
+  void onCardPressed(String category, LocalePreview l) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => new LoadingScreen(l, category)),
+    );
   }
 
 }
