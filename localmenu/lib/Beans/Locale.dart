@@ -69,9 +69,14 @@ class LocalePreview {
   }
 
   static List<LocalePreview> createListLocaliPreviewFromJson(String listJson){
-    List<LocalePreview> l=new List();
+    List<LocalePreview> l = new List();
     List<dynamic> myMap = json.decode(listJson);
     print(myMap);
+
+    myMap.forEach((element) {
+      l.add(LocalePreview.convertFromJson(element));
+    });
+
     return l;
   }
 

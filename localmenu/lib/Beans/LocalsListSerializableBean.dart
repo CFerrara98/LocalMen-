@@ -53,9 +53,10 @@ class LocalsList{
     String localiJson = "[";
     int index = 0;
     for (LocalePreview lp in u.locali) {
-      index++;
+
       localiJson += "{\"nome\":\"" + lp.getName() + "\", \"recensione\":\"" + lp.getRate().toString() + "\"}";
       if (index < u.locali.length-1) localiJson += ",";
+      index++;
     }
     localiJson+="]";
     print("Created json locali list >>> " + localiJson);

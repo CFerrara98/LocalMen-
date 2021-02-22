@@ -176,6 +176,7 @@ class _HomeState extends State<Home> {
                                 } else {
                                   // Locals already saved
                                   print("LOADING FROM PHONE CATEGORY " + categoryCards[index].name.toLowerCase());
+                                  print(localList.locali.toString());
                                   for (LocalePreview lp in localList.locali) {
                                     previewList.add(lp);
                                   }

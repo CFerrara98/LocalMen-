@@ -46,6 +46,7 @@ class ControllerLocale{
     String jsonCoordinate = json["cordinate"];
     var jsonTranslated = jsonDecode(jsonCoordinate);
     LocalsList l = LocalsList.convertFromJson(json, double.parse(jsonTranslated["latitude"]), double.parse(jsonTranslated["longitude"]));
+    print("metodo interno: " +  l.locali.toString());
     return l;
   }
 
