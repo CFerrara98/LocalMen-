@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:localmenu/Beans/Locale.dart';
 import 'package:localmenu/Beans/LocalsListSerializableBean.dart';
 import 'package:localmenu/Controller/randomizerController.dart';
@@ -169,7 +170,7 @@ class _HomeState extends State<Home> {
                                   Position p =  await Geolocalizzazione.determinePosition();
                                   if ((p.latitude - localList.coordinate.latitude).abs() > 1) localList = null;
                                   else if ((p.longitude - localList.coordinate.longitude).abs() > 1) localList = null;
-                                  else if (DateTime.now().difference(DateTime.parse(localList.time)).inDays > 0) localList = null;
+                                  else if (DateTime.now().difference(new DateFormat("yyyy-MM-dd").parse(localList.time.replaceAll('\"', ''))).inDays > 0) localList = null;
                                 }
 
                                 if (localList == null) {
