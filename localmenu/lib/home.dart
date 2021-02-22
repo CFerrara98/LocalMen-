@@ -168,11 +168,11 @@ class _HomeState extends State<Home> {
                                     event.forEach((element) {
                                       previewList.add(LocalePreview.createLocalePreviewFromJson(element.data()));
                                     });
+                                    ControllerLocale.saveLocalsPreviewList(categoryCards[index].name.toLowerCase(), previewList);
                                     setState(() {
                                       isLoading = false;
                                     });
                                   });
-                                  await ControllerLocale.saveLocalsPreviewList(categoryCards[index].name.toLowerCase(), previewList);
                                 } else {
                                   // Locals already saved
                                   print("LOADING FROM PHONE CATEGORY " + categoryCards[index].name.toLowerCase());

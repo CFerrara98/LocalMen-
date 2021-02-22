@@ -70,7 +70,6 @@ class LocalePreview {
 
   static List<LocalePreview> createListLocaliPreviewFromJson(String listJson){
     List<LocalePreview> l=new List();
-    print("PORCA MADONNA PUTTANA");
     List<dynamic> myMap = json.decode(listJson);
     print(myMap);
     return l;
