@@ -48,8 +48,10 @@ class Locale {
 class LocalePreview {
   String _name;
   double _rate;
+  String _city;
 
-  LocalePreview(this._name, this._rate);
+
+  LocalePreview(this._name, this._rate, this._city);
 
   String getName(){
     return _name;
@@ -59,8 +61,12 @@ class LocalePreview {
     return _rate.round();
   }
 
+
+  String get city => _city;
+
   LocalePreview.convertFromJson(Map<String, dynamic> json)
       : this._name = json['nome'],
+        this._city = json['citta'],
         this._rate = double.parse(json['recensione']);
 
   static LocalePreview createLocalePreviewFromJson(Map<String, dynamic> json) {
@@ -82,13 +88,14 @@ class LocalePreview {
 
   @override
   String toString() {
-    return 'LocalePreview{_name: $_name, _rate: $_rate}';
+    return 'LocalePreview{_name: $_name, _rate: $_rate, _city: $_city}';
   }
 
   static Map<String, dynamic> createJsonFromUser(LocalePreview u) {
     return {
       'nome': u._name,
-      'recensione': u._rate
+      'recensione': u._rate,
+      'citta': u._city
     };
   }
 }
