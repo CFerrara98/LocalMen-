@@ -11,7 +11,6 @@ import 'package:localmenu/Controller/randomizerController.dart';
 import 'package:localmenu/Utils/Geolocalizzazione.dart';
 import 'package:localmenu/Utils/Graphics/colors.dart';
 import 'package:localmenu/Views/LoadingPage.dart';
-import 'package:localmenu/main.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -269,7 +268,7 @@ class _HomeState extends State<Home> {
                                   margin: (index < previewList.length-1) ? EdgeInsets.only(right: 20) : EdgeInsets.only(right: 0),
                                   child: FlatButton(
                                     onPressed: () {
-                                      onCardPressed(chosenCategory, previewList[index]);
+                                      onCardPressed(chosenCategory, previewList[index], context);
                                     },
                                     padding: EdgeInsets.zero,
                                     child: Stack(
@@ -428,10 +427,10 @@ class _HomeState extends State<Home> {
 
   }
 
-  void onCardPressed(String category, LocalePreview l) {
+  void onCardPressed(String category, LocalePreview l, BuildContext ctx) {
     Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => new MiddleLoading(l: l, categoria: category)),
+      ctx,
+      MaterialPageRoute(builder: (ctx) => new MiddleLoading(l: l, categoria: category)),
     );
   }
 

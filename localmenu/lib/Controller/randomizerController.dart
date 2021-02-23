@@ -32,4 +32,8 @@ class RandomizerController {
 
   }
 
+  static AssetImage getLoadingImage(String category) {
+    return AssetImage("images/loading/" + category.toLowerCase() + ".png");
+  }
+
 }

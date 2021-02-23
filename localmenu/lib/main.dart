@@ -9,7 +9,6 @@ import 'file:///D:/Workspaces/Github/LocalMenu/localmenu/lib/Views/home.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'Utils/Graphics/colors.dart';
-import 'Utils/Graphics/colors.dart';
 
 void main() {
   runApp(MyApp());
@@ -71,7 +70,11 @@ class MyApp extends StatelessWidget {
     precacheImage(AssetImage("images/sushi/8.png"), context);
     precacheImage(AssetImage("images/sushi/9.png"), context);
     precacheImage(AssetImage("images/sushi/10.png"), context);
-
+    // Backgrounds
+    precacheImage(AssetImage("images/loading/pizzeria.png"), context);
+    precacheImage(AssetImage("images/loading/ristorante.png"), context);
+    precacheImage(AssetImage("images/loading/paninoteca.png"), context);
+    precacheImage(AssetImage("images/loading/sushi.png"), context);
   }
 
   // This widget is the root of your application.
@@ -133,14 +136,24 @@ class _LoadingScreenState extends State<LoadingScreen> {
           // CALLBACK
               () {
             print("Firebase loaded");
-            Navigator.pushAndRemoveUntil(context,
+
+            /*Navigator.pushAndRemoveUntil(context,
             PageTransition(
               type: PageTransitionType.fade,
               child: Home(),
               inheritTheme: true,
               ctx: context,
               duration: Duration(milliseconds: 800),
-            ), (route) => false);
+            ), (route) => false);*/
+
+            Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.fade,
+                  child: Home(),
+                  duration: Duration(milliseconds: 800),
+                )
+            );
 
           }
       );

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:localmenu/Beans/Locale.dart';
 import 'package:localmenu/Controller/randomizerController.dart';
@@ -19,6 +20,7 @@ class _DetailsPageState extends State<DetailsPage> {
   Widget build(BuildContext context) {
 
     AssetImage coverImage = RandomizerController.getRandomCardImage(this.widget.categoryPressed);
+    MediaQueryData mqd = MediaQuery.of(context);
 
     return Material(
       child: Stack(
@@ -40,13 +42,31 @@ class _DetailsPageState extends State<DetailsPage> {
                 height: 300,
               ),
               Container(
-                height: 800,
+                width: mqd.size.width,
+                height: 800, // TEMP HERE: must calculate with category list
                 decoration: BoxDecoration(
                   color: customWhite,
                   borderRadius: BorderRadius.only(
                       topRight: Radius.circular(32.0),
                       topLeft: Radius.circular(32.0),
                   ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Title
+                    Container(
+                      child: AutoSizeText(
+                        this.widget.localeLoaded.name,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 24,
+                        ),
+                      ),
+                      width: mqd.size.width,
+                      margin: EdgeInsets.only(top: 12),
+                    ),
+                  ],
                 ),
               ),
             ]

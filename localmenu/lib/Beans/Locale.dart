@@ -4,26 +4,26 @@ import 'package:json_annotation/json_annotation.dart';
 
 @JsonSerializable()
 class Locale {
-  String _name;
-  int _rate;
-  String _city;
-  String _address;
-  String _iva;
-  String _phone;
-  int _n_rates;
+  String name;
+  int rate;
+  String city;
+  String address;
+  String iva;
+  String phone;
+  int n_rates;
 
 
-  Locale(this._name, this._rate, this._city, this._address, this._iva,
-      this._phone, this._n_rates);
+  Locale(this.name, this.rate, this.city, this.address, this.iva,
+      this.phone, this.n_rates);
 
   Locale.convertFromJson(Map<String, dynamic> json)
-      : this._name = json['nome'],
-        this._address=json['indirizzo'],
-        this._city=json['citta'],
-        this._iva=json['partitaiva'],
-        this._rate=json['recensione'],
-        this._phone=json['telefono'],
-        this._n_rates=json['n_recensioni'];
+      : this.name = json['nome'],
+        this.address=json['indirizzo'],
+        this.city=json['citta'],
+        this.iva=json['partitaiva'],
+        this.rate=json['recensione'],
+        this.phone=json['telefono'],
+        this.n_rates=json['n_recensioni'];
 
   static Locale createLocaleFromJson(Map<String, dynamic> json) {
   Locale u = Locale.convertFromJson(json);
@@ -33,13 +33,13 @@ class Locale {
 
   static Map<String, dynamic> createJsonFromUser(Locale u) {
         return {
-        'nome': u._name,
-        'indirizzo': u._address,
-        'citta': u._city,
-        'partitaiva': u._iva,
-        'recensione': u._rate,
-        'telefono': u._phone,
-        'n_recensioni': u._n_rates,
+        'nome': u.name,
+        'indirizzo': u.address,
+        'citta': u.city,
+        'partitaiva': u.iva,
+        'recensione': u.rate,
+        'telefono': u.phone,
+        'n_recensioni': u.n_rates,
         };
   }
 }
@@ -98,4 +98,17 @@ class LocalePreview {
       'citta': u._city
     };
   }
+}
+
+@JsonSerializable()
+class Piatto {
+  String _name;
+  String _desc;
+  double _price;
+}
+
+@JsonSerializable()
+class PiattoCategoria {
+  String _name;
+  List<Piatto> _listOfItems;
 }
