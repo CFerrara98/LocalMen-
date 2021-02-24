@@ -5,10 +5,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:localmenu/Utils/custom_bordered_text.dart';
-import 'file:///D:/Workspaces/Github/LocalMenu/localmenu/lib/Views/home.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'Utils/Graphics/colors.dart';
+import 'Views/home.dart';
 
 void main() {
   runApp(MyApp());

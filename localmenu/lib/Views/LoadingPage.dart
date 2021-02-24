@@ -7,7 +7,6 @@ import 'package:localmenu/Beans/Locale.dart';
 import 'package:localmenu/Controller/controllerLocale.dart';
 import 'package:localmenu/Controller/randomizerController.dart';
 import 'package:localmenu/Utils/custom_bordered_text.dart';
-import 'file:///D:/Workspaces/Github/LocalMenu/localmenu/lib/Views/home.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
