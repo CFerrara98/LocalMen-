@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'package:json_annotation/json_annotation.dart';
-
 import 'Piatto.dart';
-
 
 @JsonSerializable()
 
@@ -17,8 +15,7 @@ class PiattoCategoria {
       : this.name = json['label'],
         this.listOfItems = createListOfPiatti(json['piatti']);
 
-  static List<Piatto> createListOfPiatti(String listJson){
-    List<dynamic> tmpDishJson = json.decode(listJson);
+  static List<Piatto> createListOfPiatti(List<dynamic> tmpDishJson){
     List<Piatto> listaPiatti = new List();
     tmpDishJson.forEach((element) {
       listaPiatti.add(Piatto.convertFromJson(element));

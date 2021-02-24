@@ -60,7 +60,6 @@ class ControllerLocale{
     if (response != null && response.statusCode == 200) {
         print(response.body);
         Locale l = Locale.convertFromJson(json.decode(response.body));
-
         return l;
     }
 

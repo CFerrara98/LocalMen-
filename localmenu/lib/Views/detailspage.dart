@@ -31,7 +31,7 @@ class _DetailsPageState extends State<DetailsPage> {
           Container(
             height: 340,
             decoration: BoxDecoration(
-              color: customBlack,
+              color: customGrey,
               image: DecorationImage(
                 image: coverImage,
                 fit: BoxFit.cover,
@@ -48,7 +48,7 @@ class _DetailsPageState extends State<DetailsPage> {
                   ),
                   Container(
                     width: mqd.size.width,
-                    height: 800, // TEMP HERE: must calculate with category list
+                    height: 250, // TEMP HERE: must calculate with category list
                     decoration: BoxDecoration(
                       color: customGrey,
                       borderRadius: BorderRadius.only(
@@ -219,7 +219,7 @@ class _DetailsPageState extends State<DetailsPage> {
           ),
         ],
       ),
-      color: customBlack,
+      color: customGrey,
     );
   }
 

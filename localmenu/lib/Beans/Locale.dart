@@ -27,12 +27,11 @@ class Locale {
         this.rate=json['recensione'],
         this.phone=json['telefono'],
         this.n_rates=json['n_recensioni'],
-        this.isAllowed = json['is_allowed'],
+        this.isAllowed =  (json['is_allowed'].toString().toLowerCase() == "true") ? true : false,
         this.piattiCategoria = Locale.createListOfPiattiCategoria(json['categorie_piatti']);
 
+  static List<PiattoCategoria> createListOfPiattiCategoria(List<dynamic> tmpDishJson){
 
-  static List<PiattoCategoria> createListOfPiattiCategoria(String listJson){
-    List<dynamic> tmpDishJson = json.decode(listJson);
     List<PiattoCategoria> listaPiattiCategoria = new List();
     tmpDishJson.forEach((element) {
       listaPiattiCategoria.add(PiattoCategoria.convertFromJson(element));
@@ -82,7 +81,7 @@ class LocalePreview {
   String _name;
   double _rate;
   String _city;
-  String _isAllowed;
+  bool _isAllowed;
 
 
   LocalePreview(this._name, this._rate, this._city);
@@ -98,13 +97,13 @@ class LocalePreview {
 
   String get city => _city;
 
-  String get isAllowed => _isAllowed;
+  bool get isAllowed => _isAllowed;
 
   LocalePreview.convertFromJson(Map<String, dynamic> json)
       : this._name = json['nome'],
         this._city = json['citta'],
         this._rate = double.parse(json['recensione']),
-        this._isAllowed = json['is_allowed'];
+        this._isAllowed = (json['is_allowed'].toString().toLowerCase() == "true") ? true : false;
 
   static LocalePreview createLocalePreviewFromJson(Map<String, dynamic> json) {
     LocalePreview u = LocalePreview.convertFromJson(json);

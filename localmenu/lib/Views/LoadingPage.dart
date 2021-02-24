@@ -36,21 +36,8 @@ class _MiddleLoadingState extends State<MiddleLoading> {
   }
 
   void initializeLocale() async {
-    try {
-      locale = await ControllerLocale.getLocaleFromPreview(widget.l, widget.categoria);
-    } catch(e) {
-      Fluttertoast.showToast(
-          msg: "Errore di caricamento...",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-      Navigator.pop(context);
-    }
-
+    
+    locale = await ControllerLocale.getLocaleFromPreview(widget.l, widget.categoria);
 
     if (locale != null)
       Timer(
