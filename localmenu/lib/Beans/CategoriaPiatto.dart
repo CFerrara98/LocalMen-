@@ -16,6 +16,7 @@ class PiattoCategoria {
         this.listOfItems = createListOfPiatti(json['piatti']);
 
   static List<Piatto> createListOfPiatti(List<dynamic> tmpDishJson){
+    if(tmpDishJson == null)  return new List();
     List<Piatto> listaPiatti = new List();
     tmpDishJson.forEach((element) {
       listaPiatti.add(Piatto.convertFromJson(element));

@@ -32,6 +32,7 @@ class Locale {
 
   static List<PiattoCategoria> createListOfPiattiCategoria(List<dynamic> tmpDishJson){
 
+    if(tmpDishJson == null)  return new List();
     List<PiattoCategoria> listaPiattiCategoria = new List();
     tmpDishJson.forEach((element) {
       listaPiattiCategoria.add(PiattoCategoria.convertFromJson(element));
