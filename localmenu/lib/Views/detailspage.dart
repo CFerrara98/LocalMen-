@@ -2,10 +2,14 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:localmenu/Beans/CategoriaPiatto.dart';
 import 'package:localmenu/Beans/Locale.dart';
+import 'package:localmenu/Beans/Piatto.dart';
 import 'package:localmenu/Controller/randomizerController.dart';
 import 'package:localmenu/Utils/Graphics/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:convert';
 
 class DetailsPage extends StatefulWidget {
   @override
@@ -48,7 +52,8 @@ class _DetailsPageState extends State<DetailsPage> {
                   ),
                   Container(
                     width: mqd.size.width,
-                    height: 250, // TEMP HERE: must calculate with category list
+                    height: (this.widget.localeLoaded.piattiCategoria.isEmpty) ? 300 : 235 + getContainerSize(this.widget.localeLoaded.piattiCategoria),
+                    padding: EdgeInsets.only(bottom: 72),
                     decoration: BoxDecoration(
                       color: customGrey,
                       borderRadius: BorderRadius.only(
@@ -110,6 +115,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         Container(
                           width: mqd.size.width,
                           padding: EdgeInsets.only(left: mqd.size.width * 10 / 100, right: mqd.size.width * 10 / 100),
+                          margin: EdgeInsets.only(bottom: 24),
                           child: AutoSizeText(
                             "in " + this.widget.localeLoaded.address,
                             textAlign: TextAlign.center,
@@ -120,7 +126,122 @@ class _DetailsPageState extends State<DetailsPage> {
                               color: customBlack,
                             ),
                           ),
-                        )
+                        ),
+                        if (this.widget.localeLoaded.piattiCategoria.isEmpty)
+                          Container(
+                            padding: EdgeInsets.fromLTRB(mqd.size.width * 8/100, 0, mqd.size.width * 8/100, 0),
+                            child: AutoSizeText(
+                              "Attualmente questo locale non ha compilato il proprio menù.\nRicontrolla più tardi.",
+                              textAlign: TextAlign.center,
+                              maxLines: 3,
+                              minFontSize: 16,
+                              style: GoogleFonts.ptSans(
+                                fontSize: 20,
+                                color: customBlack,
+                              ),
+                            ),
+                          )
+                        else
+                          Container(
+                            padding: EdgeInsets.fromLTRB(mqd.size.width * 8/100, 0, mqd.size.width * 8/100, 0),
+                            // Column that contains all categories
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                for(int i = 0; i < this.widget.localeLoaded.piattiCategoria.length; i++)
+                                  // Column that contains name and all plates
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.only(left: 6),
+                                        child: AutoSizeText(
+                                          this.widget.localeLoaded.piattiCategoria[i].name,
+                                          textAlign: TextAlign.start,
+                                          maxLines: 1,
+                                          minFontSize: 20,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: GoogleFonts.ptSans(
+                                            fontSize: 24,
+                                            color: customBlack,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(bottom: 8),
+                                        child: Divider(
+                                          endIndent: mqd.size.width * 20/100,
+                                          thickness: 1.4,
+                                          color: customBlack,
+                                          height: 10,
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.only(left: 6),
+                                        margin: (i < this.widget.localeLoaded.piattiCategoria.length-1) ? EdgeInsets.only(bottom: 20) : EdgeInsets.only(bottom: 0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            for (int j = 0; j < this.widget.localeLoaded.piattiCategoria[i].listOfItems.length; j++)
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Container(
+                                                        child: AutoSizeText(
+                                                          this.widget.localeLoaded.piattiCategoria[i].listOfItems[j].name,
+                                                          textAlign: TextAlign.start,
+                                                          maxLines: 1,
+                                                          minFontSize: 18,
+                                                          overflow: TextOverflow.ellipsis,
+                                                          style: GoogleFonts.ptSans(
+                                                            fontSize: 20,
+                                                            color: customBlack,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Expanded(child: Container()),
+                                                      Container(
+                                                        child: AutoSizeText(
+                                                          "€ " + getPriceWithDecimal(this.widget.localeLoaded.piattiCategoria[i].listOfItems[j].price),
+                                                          maxLines: 1,
+                                                          minFontSize: 18,
+                                                          overflow: TextOverflow.ellipsis,
+                                                          style: GoogleFonts.ptSans(
+                                                            fontSize: 20,
+                                                            color: customOrange,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Container(
+                                                    margin: EdgeInsets.only(bottom: 8),
+                                                    child: AutoSizeText(
+                                                      this.widget.localeLoaded.piattiCategoria[i].listOfItems[j].desc,
+                                                      textAlign: TextAlign.start,
+                                                      maxLines: 2,
+                                                      minFontSize: 12,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      style: GoogleFonts.ptSans(
+                                                        fontSize: 16,
+                                                        color: customBlack,
+                                                        fontStyle: FontStyle.italic,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                              ],
+                            ),
+                          ),
                       ],
                     ),
                   ),
@@ -221,6 +342,25 @@ class _DetailsPageState extends State<DetailsPage> {
       ),
       color: customGrey,
     );
+  }
+
+  String getPriceWithDecimal(double price) {
+    var f = new NumberFormat("##0.00", "en_US");
+    return f.format(price);
+  }
+
+  double getContainerSize(List<PiattoCategoria> list) {
+    double sizeToReturn = 0;
+    for (PiattoCategoria pc in list) {
+      sizeToReturn += 67;
+      print("found category > actual size: " + sizeToReturn.toString());
+      for (Piatto p in pc.listOfItems) {
+        sizeToReturn += 55;
+        print("found plate > actual size: " + sizeToReturn.toString());
+      }
+    }
+    sizeToReturn-=20;
+    return sizeToReturn;
   }
 
 }

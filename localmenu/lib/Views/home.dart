@@ -161,7 +161,6 @@ class _HomeState extends State<Home> {
                                 // Checking if locals are already saved in local device
                                 LocalsList localList = await ControllerLocale.getLocalsPreviewList(categoryCards[index].name.toLowerCase());
 
-
                                 if (localList != null){
                                   Position p =  await Geolocalizzazione.determinePosition();
                                   print (p);
@@ -176,7 +175,8 @@ class _HomeState extends State<Home> {
                                   databaseStream = await ControllerLocale.initLocaliFromCategory(categoryCards[index].name, 13000); // DEBUG RANGE HERE
                                   databaseStream.listen((event) {
                                     event.forEach((element) {
-                                      previewList.add(LocalePreview.createLocalePreviewFromJson(element.data()));
+                                      LocalePreview lp = LocalePreview.createLocalePreviewFromJson(element.data());
+                                      if (lp.isAllowed) previewList.add(lp);
                                     });
                                     ControllerLocale.saveLocalsPreviewList(categoryCards[index].name.toLowerCase(), previewList);
                                     setState(() {
