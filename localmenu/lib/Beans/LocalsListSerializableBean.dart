@@ -53,7 +53,8 @@ class LocalsList{
     String localiJson = "[";
     int index = 0;
     for (LocalePreview lp in u.locali) {
-      localiJson += "{\"nome\":\"" + lp.getName() + "\", \"recensione\":\"" + lp.getRate().toString() + "\", \"citta\":\"" + lp.city + "\"}";
+      localiJson += "{\"nome\":\"" + lp.getName() + "\", \"recensione\":\"" + lp.getRate().toString() + "\", \"citta\":\"" + lp.city +
+          "\", \"is_allowed\":\"" + lp.isAllowed + "\"}";
       if (index < u.locali.length-1) localiJson += ",";
       index++;
     }
