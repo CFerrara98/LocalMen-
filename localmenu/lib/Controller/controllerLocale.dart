@@ -43,6 +43,7 @@ class ControllerLocale{
     SharedPreferencesManager spm = new SharedPreferencesManager();
     await spm.initPreferences();
     Map<String, dynamic> json = spm.GetSerializable(category);
+    print("JSON RETRIEVED FROM SHARED PREFERENCES: " + json.toString());
     if(json==null) return null;
     String jsonCoordinate = json["cordinate"];
     var jsonTranslated = jsonDecode(jsonCoordinate);
@@ -62,7 +63,6 @@ class ControllerLocale{
         Locale l = Locale.convertFromJson(json.decode(response.body));
         return l;
     }
-
     return null;
   }
 

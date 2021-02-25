@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:localmenu/Utils/custom_bordered_text.dart';
+import 'package:localmenu/Views/errorpage.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'Utils/Graphics/colors.dart';
@@ -111,56 +114,94 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
-    initializeFlutterFire();
+    preload();
   }
 
+  bool canLoad = false;
   bool successfullyConnected = false;
 
-  void initializeFlutterFire() async {
-    try {
-      await Firebase.initializeApp();
-      setState(() {
-        successfullyConnected = true;
-      });
-    } catch(e) {
-      setState(() {
-        successfullyConnected = false;
-      });
-    }
+  void preload() async {
+    await checkInternetConnection();
+    await initializeFlutterFire();
+    await failureRedirect();
+  }
 
-    if (successfullyConnected)
+  Future checkInternetConnection() async {
+    print("*** TRYING PING ON GOOGLE ***");
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        canLoad = true;
+        print("*** SUCCESS PING GOOGLE ***");
+      }
+    } on SocketException catch (_) {
+      print("*** CANNOT PING GOOGLE ***");
+      canLoad = false;
+    }
+  }
+
+  Future initializeFlutterFire() async {
+    print("*** TRYING LOADING FIREBASE ***");
+    if (canLoad)
+      try {
+        await Firebase.initializeApp();
+        print("*** SUCCESS FIREBASE ***");
+        successfullyConnected = true;
+      } catch(e) {
+        print("*** CANNOT LOAD FIREBASE, CANLOAD = FALSE ***");
+        successfullyConnected = false;
+      }
+      if (successfullyConnected) {
+        canLoad = true;
+        print("*** PUSHING TO HOME ***");
+        Timer(
+            Duration(
+              seconds: 2,
+            ),
+            // CALLBACK
+                () {
+              Navigator.push(
+                  context,
+                  PageTransition(
+                    type: PageTransitionType.fade,
+                    child: Home(),
+                    duration: Duration(milliseconds: 800),
+                  )
+              );
+            }
+        );
+      } else {
+        canLoad = false;
+      }
+  }
+
+  Future failureRedirect() async {
+    print("*** CHECKING IF THERE IS AN ERROR ***");
+    if (!canLoad) {
+      print("*** ERROR FOUND ***");
       Timer(
           Duration(
             seconds: 2,
           ),
           // CALLBACK
               () {
-            print("Firebase loaded");
-
-            /*Navigator.pushAndRemoveUntil(context,
-            PageTransition(
-              type: PageTransitionType.fade,
-              child: Home(),
-              inheritTheme: true,
-              ctx: context,
-              duration: Duration(milliseconds: 800),
-            ), (route) => false);*/
-
-            Navigator.push(
-                context,
-                PageTransition(
-                  type: PageTransitionType.fade,
-                  child: Home(),
-                  duration: Duration(milliseconds: 800),
-                )
-            );
-
+              Navigator.push(
+                  context,
+                  PageTransition(
+                    type: PageTransitionType.fade,
+                    child: ConnectionErrorPage(),
+                    duration: Duration(milliseconds: 800),
+                  )
+              );
           }
       );
-    else {
-      print("Error");
+    } else {
+      print("*** THERE IS NO ERROR FOUND ***");
     }
+  }
 
+  Future<bool> onBackPressed() async {
+    return false;
   }
 
   @override
@@ -168,29 +209,32 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
     MediaQueryData mqd = MediaQuery.of(context);
 
-    return Scaffold(
-      body: Material(
-        child: Container(
-          color: customOrange,
+    return WillPopScope(
+      onWillPop: onBackPressed,
+      child: Scaffold(
+        body: Material(
           child: Container(
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('images/background_revert.png'),
-                  fit: BoxFit.cover,
-                )
-            ),
-            padding: EdgeInsets.fromLTRB(mqd.size.width * 20 / 100, 0, mqd.size.width * 20 / 100, 0),
-            child: Center(
-              child: BorderedText(
-                strokeColor: customOrange,
-                strokeWidth: 16,
-                child: AutoSizeText(
-                  "LOCAL MENU",
-                  maxLines: 1,
-                  minFontSize: 16,
-                  style: GoogleFonts.ptSansNarrow(
-                    fontSize: 80,
-                    color: customWhite,
+            color: customOrange,
+            child: Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('images/background_revert.png'),
+                    fit: BoxFit.cover,
+                  )
+              ),
+              padding: EdgeInsets.fromLTRB(mqd.size.width * 20 / 100, 0, mqd.size.width * 20 / 100, 0),
+              child: Center(
+                child: BorderedText(
+                  strokeColor: customOrange,
+                  strokeWidth: 16,
+                  child: AutoSizeText(
+                    "LOCAL MENU",
+                    maxLines: 1,
+                    minFontSize: 16,
+                    style: GoogleFonts.ptSansNarrow(
+                      fontSize: 80,
+                      color: customWhite,
+                    ),
                   ),
                 ),
               ),

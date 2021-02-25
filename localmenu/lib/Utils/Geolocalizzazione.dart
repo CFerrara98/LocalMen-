@@ -1,4 +1,5 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:localmenu/Utils/exceptions.dart';
 
 class Geolocalizzazione{
   static Future<Position> determinePosition() async {
@@ -7,21 +8,19 @@ class Geolocalizzazione{
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
+      throw new GeoException("Attiva il GPS per visualizzare i locali vicini");
     }
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permantly denied, we cannot request permissions.');
+      throw new GeoException("Non è possibile visualizzare i locali vicini siccome è stato negato l'accesso al GPS");
     }
 
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission != LocationPermission.whileInUse &&
           permission != LocationPermission.always) {
-        return Future.error(
-            'Location permissions are denied (actual value: $permission).');
+        throw new GeoException("Non è possibile visualizzare i locali vicini siccome è stato negato l'accesso al GPS");
       }
     }
 
